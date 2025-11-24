@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
-      <header className="flex justify-center w-6xl mx-auto py-2 px-6 sticky top-0 z-50 border rounded-full mt-2 bg-white/80 backdrop-blur-xl dark:bg-black/80">
+      <header className="flex justify-center w-full sm:w-6xl mx-auto py-2 px-6 sticky top-0 z-50 border rounded-full mt-2 bg-white/80 backdrop-blur-xl dark:bg-black/80">
         <div className="flex gap-4">
           <Button>
             <Link href={"/login"} className="hover:underline">
@@ -21,8 +21,8 @@ export default function Home() {
         </div>
       </header>
       <main className="flex flex-col h-full gap-4 justify-center items-center">
-        <div className="text-center w-3xl space-y-4">
-          <h1 className="text-6xl text-center font-extrabold tracking-tight text-balance">
+        <div className="text-center sm:w-3xl space-y-4">
+          <h1 className="text-6xl text-center font-extrabold text-balance">
             A Simple{" "}
             <span className="text-transparent [-webkit-text-stroke:1px_black]">
               Dashboard
@@ -35,7 +35,7 @@ export default function Home() {
           </p>
           <Separator />
         </div>
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           <Button size={"lg"}>
             <BookUser />
             <Link href={"/signup"} className="hover:underline">

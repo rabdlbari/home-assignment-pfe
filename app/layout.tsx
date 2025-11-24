@@ -1,4 +1,3 @@
-// import "@clerk/nextjs/dist/clerk.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import React from "react";
 

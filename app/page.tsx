@@ -6,25 +6,11 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
-      <header className="flex justify-center w-full sm:w-6xl mx-auto py-2 px-6 sticky top-0 z-50 border rounded-full mt-2 bg-white/80 backdrop-blur-xl dark:bg-black/80">
-        <div className="flex gap-4">
-          <Button>
-            <Link href={"/login"} className="hover:underline">
-              Login
-            </Link>
-          </Button>
-          <Button variant={"secondary"}>
-            <Link href={"/signup"} className="hover:underline">
-              Sign up
-            </Link>
-          </Button>
-        </div>
-      </header>
       <main className="flex flex-col h-full gap-4 justify-center items-center">
-        <div className="text-center sm:w-3xl space-y-4">
-          <h1 className="text-6xl text-center font-extrabold text-balance">
+        <div className="text-center sm:w-3xl space-y-4 px-4">
+          <h1 className="lg:text-6xl text-5xl text-center font-extrabold text-balance">
             A Simple{" "}
-            <span className="text-transparent [-webkit-text-stroke:1px_black]">
+            <span className="text-transparent [-webkit-text-stroke:2px_black]">
               Dashboard
             </span>{" "}
             for Agencies and Contacts
@@ -38,13 +24,13 @@ export default function Home() {
         <div className="flex flex-col gap-4 sm:flex-row">
           <Button size={"lg"}>
             <BookUser />
-            <Link href={"/signup"} className="hover:underline">
+            <Link href={"/contacts"} className="hover:underline">
               View Contacts
             </Link>
           </Button>
           <Button size={"lg"}>
             <Building2 />
-            <Link href={"/signup"} className="hover:underline">
+            <Link href={"/agencies"} className="hover:underline">
               View Agencies
             </Link>
           </Button>

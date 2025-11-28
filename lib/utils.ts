@@ -27,3 +27,10 @@ export function timeAgo(dateString: string): string {
   if (months < 12) return `${months} month${months !== 1 ? "s" : ""} ago`;
   return `${years} year${years !== 1 ? "s" : ""} ago`;
 }
+
+function shuffleArray<T>(array: T[]): void {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1)); // Generate a random index
+    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+  }
+}

@@ -10,12 +10,12 @@ export default function Home() {
         <div className="text-center sm:w-3xl space-y-4 px-4">
           <h1 className="lg:text-6xl text-5xl text-center font-extrabold text-balance">
             A Simple{" "}
-            <span className="text-transparent [-webkit-text-stroke:2px_black]">
+            <span id="dashboard-text" className="text-transparent">
               Dashboard
             </span>{" "}
             for Agencies and Contacts
           </h1>
-          <p className="text-base text-gray-700">
+          <p className="text-base text-muted-foreground">
             Securely access agency data, browse employee contacts, and manage
             your daily usage with a streamlined, login-protected dashboard.
           </p>

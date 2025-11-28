@@ -1,4 +1,10 @@
-import { BookUser, Building2, LucideIcon } from "lucide-react";
+import {
+  BookUser,
+  Building2,
+  LayoutDashboard,
+  LucideIcon,
+  Table2Icon,
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -20,6 +26,11 @@ type NavItem = {
 
 const items: Array<NavItem> = [
   {
+    url: "/dashboard",
+    title: "Dashboard",
+    icon: LayoutDashboard,
+  },
+  {
     url: "/agencies",
     title: "Agencies",
     icon: Building2,
@@ -35,10 +46,10 @@ export async function SidebarApp() {
   return (
     <>
       <Sidebar variant="sidebar" collapsible="icon">
-        <SidebarHeader />
+        <SidebarHeader></SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Network</SidebarGroupLabel>
+            <SidebarGroupLabel>App</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {items.map((item) => (

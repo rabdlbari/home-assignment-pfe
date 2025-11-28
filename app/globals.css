@@ -127,3 +127,7 @@
     cursor: pointer;
   }
 }
+
+#dashboard-text {
+  -webkit-text-stroke: 2px var(--foreground);
+}

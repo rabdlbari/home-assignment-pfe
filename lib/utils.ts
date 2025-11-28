@@ -28,9 +28,20 @@ export function timeAgo(dateString: string): string {
   return `${years} year${years !== 1 ? "s" : ""} ago`;
 }
 
-function shuffleArray<T>(array: T[]): void {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1)); // Generate a random index
-    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+export function shuffleRows<T>(array2D: T[][]): T[][] {
+  const shuffledArray = array2D;
+  let currentIndex = shuffledArray.length;
+  let randomIndex: number;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [shuffledArray[currentIndex], shuffledArray[randomIndex]] = [
+      shuffledArray[randomIndex],
+      shuffledArray[currentIndex],
+    ];
   }
+
+  return shuffledArray;
 }

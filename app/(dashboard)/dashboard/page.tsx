@@ -1,24 +1,29 @@
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { readCsv } from "@/lib/readCsv";
+import { agencies, contacts } from "@/data/data";
+import { cn } from "@/lib/utils";
+import { DateCount } from "@/proxy";
+import { cookies } from "next/headers";
 
 type DashCardProps = {
   description: string;
   value: string | number;
+  badge?: string;
 };
 
 export default async function Dashboard() {
-  const agencies = await readCsv("./public/agencies_agency_rows.csv");
-  const contacts = await readCsv("./public/contacts_contact_rows.csv");
-
-  // Remove header row
   const agencyCount = agencies.length > 0 ? agencies.length - 1 : 0;
   const contactCount = contacts.length > 0 ? contacts.length - 1 : 0;
+
+  const cookie = (await cookies()).get("contacts-limit");
+  const cookieData = JSON.parse(cookie?.value as string) as DateCount;
 
   const items: DashCardProps[] = [
     {
@@ -31,7 +36,11 @@ export default async function Dashboard() {
     },
     {
       description: "Visited Contacts",
-      value: "TODO",
+      value: cookieData.count,
+      badge:
+        cookieData.count >= 0 && cookieData.count < 50
+          ? "Granted"
+          : "Restricted",
     },
   ];
 
@@ -47,6 +56,21 @@ export default async function Dashboard() {
                 <CardTitle className="text-3xl font-bold tabular-nums">
                   {item.value}
                 </CardTitle>
+                {item.badge && (
+                  <CardAction>
+                    <Badge
+                      variant="outline"
+                      className={cn(
+                        item.badge === "Granted"
+                          ? "text-green-500"
+                          : "text-red-500"
+                      )}
+                    >
+                      {/* <IconTrendingUp /> */}
+                      {item.badge}
+                    </Badge>
+                  </CardAction>
+                )}
               </CardHeader>
             </Card>
           ))}

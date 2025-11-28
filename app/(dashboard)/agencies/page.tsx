@@ -2,11 +2,13 @@ import { readCsv } from "@/lib/readCsv";
 import { DataTable } from "@/components/data-table";
 import { columns, Agency } from "./columns";
 import { agencies } from "@/data/data";
+import { shuffleRows } from "@/lib/utils";
 
 export default async function AgenciesPage() {
   const rows = agencies;
 
   const [header, ...data] = rows;
+  shuffleRows(data);
   const agenciesData: Agency[] = data.map((row) => {
     const obj: any = {};
     header.forEach((h: string, idx: number) => {

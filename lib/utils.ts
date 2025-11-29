@@ -45,3 +45,21 @@ export function shuffleRows<T>(array2D: T[][]): T[][] {
 
   return shuffledArray;
 }
+
+export function getRemainingTime(resetTime: Date): string {
+  const now = new Date();
+  const target = new Date(resetTime.getTime() + 24 * 60 * 60 * 1000);
+
+  let diff = target.getTime() - now.getTime();
+  if (diff < 0) diff = 0;
+
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  diff -= hours * 1000 * 60 * 60;
+
+  const minutes = Math.floor(diff / (1000 * 60));
+  diff -= minutes * 1000 * 60;
+
+  const seconds = Math.floor(diff / 1000);
+
+  return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+}

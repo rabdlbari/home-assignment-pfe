@@ -31,7 +31,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <SidebarProvider defaultOpen={false}>
               <SidebarApp />
               <main className="flex-1 flex flex-col overflow-x-hidden">
-                <header className="flex justify-between items-center w-full py-2 px-6 border bg-white/80 backdrop-blur-xl dark:bg-black/80">
+                <header className="flex justify-between items-center w-full py-1 px-6 border bg-white/80 backdrop-blur-xl dark:bg-black/80">
                   <div className="flex">
                     <SidebarTrigger />
                   </div>

@@ -1,7 +1,7 @@
 import { DataTable } from "@/components/contacts-data-table";
 import { contacts } from "@/data/data";
 import { columns, Contact } from "./columns";
-import { shuffleRows } from "@/lib/utils";
+import { getRemainingTime, shuffleRows } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { DateCount } from "@/proxy";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -31,25 +31,33 @@ export default async function ContactsPage() {
     ? (JSON.parse(cookie.value) as DateCount)
     : { date: today, count: 0 };
   console.log(MAX_CONTACTS - dateCount.count);
+  const timeRemaining = getRemainingTime(new Date(dateCount.date));
   return (
     <div className="p-4 w-full max-w-screen overflow-hidden h-full">
-      <h1 className="text-2xl font-semibold mb-4">Contacts:</h1>
-      {dateCount.count <= 50 && dateCount.count >= 0 ? (
+      <h1 className="text-2xl font-semibold mb-2">Contacts:</h1>
+      {dateCount.count < 50 && dateCount.count >= 0 ? (
         <DataTable
           columns={columns}
           data={contactsData}
           remainingContacts={MAX_CONTACTS - dateCount.count}
         />
       ) : (
-        <Alert variant="destructive" className="w-4xl m-auto">
-          <Lock className="h-4 w-4" />
-          <AlertTitle>Daily Limit Reached</AlertTitle>
-          <AlertDescription>
-            You have reached the maximum number of contacts allowed today.{" "}
-            <a href="#">Upgrade your account</a> or wait until the next 24 hours
-            for the limit to reset.
+        // <div className="h-full">
+        <Alert variant="destructive" className="mx-auto w-fit">
+          <AlertTitle className="flex flex-col">
+            <Lock className="h-10 w-10 mx-auto" />
+            <h1 className="text-2xl text-center">Daily Limit Reached</h1>
+          </AlertTitle>
+          <AlertDescription className="">
+            <p className="w-fit text-center text-xl text-balance">
+              You have reached the maximum number of contacts allowed today.
+              Upgrade your account or wait until{" "}
+              <span className="font-semibold">{timeRemaining}</span> for the
+              limit to reset.
+            </p>
           </AlertDescription>
         </Alert>
+        // </div>
       )}
     </div>
   );

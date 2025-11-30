@@ -1,21 +1,16 @@
 import { ClerkProvider, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import React from "react";
-import { Poppins, Encode_Sans } from "next/font/google";
+import { Encode_Sans } from "next/font/google";
 import "../globals.css";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { SidebarApp } from "@/components/sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/theme-toggle";
-import { Separator } from "@/components/ui/separator";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-poppins",
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-});
+export const metadata = {
+  title: "Dashboard",
+  description: "The platform for managing agencies and contacts.",
+};
 
 const encode_Sans = Encode_Sans({
   subsets: ["latin"],

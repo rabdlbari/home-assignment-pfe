@@ -7,12 +7,20 @@ import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/theme-toggle";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-poppins",
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-});
+export const metadata = {
+  title: "Dashboard - App",
+  description: "Administrative dashboard for managing agencies and contacts.",
+  keywords: ["dashboard", "agencies", "contacts"],
+  authors: [{ name: "Abdelbarie" }],
+  openGraph: {
+    title: "Dashboard App",
+    description: "Administrative dashboard for managing agencies and contacts.",
+    url: "https://home-assignment-pfe.vercel.app",
+    siteName: "My App",
+    locale: "en_US",
+    type: "website",
+  },
+};
 
 const encode_Sans = Encode_Sans({
   subsets: ["latin"],

@@ -79,12 +79,14 @@ export default async function Dashboard() {
                     </CardAction>
                   )}
                 </CardHeader>
-                {item.footer && (
-                  <div className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
-                    <ClockAlert className="w-4 h-4" />
-                    <span>{item.footer}</span>
-                  </div>
-                )}
+                {item.footer &&
+                  cookieData.count >= 0 &&
+                  cookieData.count < 50 && (
+                    <div className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
+                      <ClockAlert className="w-4 h-4" />
+                      <span>{item.footer}</span>
+                    </div>
+                  )}
               </CardContent>
             </Card>
           ))}

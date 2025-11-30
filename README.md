@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dashboard Application with Daily Contact Limit
 
-## Getting Started
+A web-based dashboard application that allows authenticated users to view agencies and contacts, with a daily limit of 50 contacts per user. The project includes server-side contact limiting, pagination, filtering, and usage statistics.
 
-First, run the development server:
+---
+
+## Features
+
+- **User Authentication**: Only authenticated users can access the dashboard.
+- **Agency Management**: View all agencies in a data table with filtering and column sorting.
+- **Contact Management**:
+
+  - Daily limit of 50 contacts per user.
+  - Paginated display with 10 contacts per request.
+  - Tracks viewed contacts and remaining daily quota.
+
+- **Statistics Dashboard**: Shows total agencies, total contacts, and remaining contacts with reset timer.
+- **Server-Side Limit Enforcement**: Uses cookies to track the number of contacts viewed.
+- **Modular Architecture**: Clear separation of User, Server, and Service layers.
+
+---
+
+## Technologies
+
+- **Frontend**: React, Next.js, TanStack Data Tables
+- **Authentication**: Clerk authentication
+
+---
+
+## Usage
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/rabdlbari/home-assignment-pfe.git
+cd dashboard-app
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+# or
+bun install
+```
+
+3. Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Access the dashboard:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Images
 
-To learn more about Next.js, take a look at the following resources:
+### Landing Page
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![Dashboard Screenshot](./images/landing-dark.png "Dashboard View")
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Dashboard Page
 
-## Deploy on Vercel
+![Dashboard Screenshot](./images/dashboard.png "Dashboard View")
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Agencies Page
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![Dashboard Screenshot](./images/agencies.png "Dashboard View")
+
+### Contacts Page (Daily Limit)
+
+![Dashboard Screenshot](./images/contacts-daily-limit.png "Dashboard View")
+
+### Contacts Page (Dialog Prompt)
+
+![Dashboard Screenshot](./images/contacts-dialog-prompt.png "Dashboard View")

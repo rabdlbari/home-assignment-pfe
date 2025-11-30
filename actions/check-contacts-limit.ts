@@ -30,6 +30,7 @@ export async function checkDailyLimit() {
 
   // Increment count
   data.count += 10;
+  data.date = new Date().getTime();
 
   cookieStore.set("contacts-limit", JSON.stringify(data), {
     httpOnly: true,
@@ -43,4 +44,45 @@ export async function checkDailyLimit() {
     allowed: true,
     remaining: LIMIT - data.count,
   };
+}
+
+// import { cookies } from "next/headers";
+
+type LimitCookie = {
+  count: number;
+  time: number; // milliseconds
+};
+
+export async function updateLimitCookie() {
+  const store = await cookies();
+  const cookie = store.get("contacts-limit");
+
+  const now = Date.now();
+
+  let data: LimitCookie;
+
+  if (!cookie) {
+    // Create new cookie
+    data = { count: 10, time: now };
+  } else {
+    // Parse & update
+
+    const parsed = JSON.parse(cookie.value) as LimitCookie;
+    // parsed.count += 10;
+    data = {
+      count: parsed.count + 10,
+      time: now, // update timestamp
+    };
+  }
+
+  // Save cookie
+  store.set("contacts-limit", JSON.stringify(data), {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+    // path: "/",
+    maxAge: 60 * 60 * 24, // 24 hours
+  });
+
+  return data;
 }

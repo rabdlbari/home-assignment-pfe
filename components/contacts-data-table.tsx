@@ -29,7 +29,10 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { checkDailyLimit } from "@/actions/check-contacts-limit";
+import {
+  checkDailyLimit,
+  updateLimitCookie,
+} from "@/actions/check-contacts-limit";
 import { Dialog, DialogTitle } from "@radix-ui/react-dialog";
 import {
   DialogClose,
@@ -38,6 +41,7 @@ import {
   DialogFooter,
   DialogHeader,
 } from "./ui/dialog";
+import { getRemainingTime } from "@/lib/utils";
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -48,22 +52,27 @@ type DataTableProps<TData, TValue> = {
 const MAX_CONTACTS = 50;
 
 type CombinedProps<TData, TValue> = DataTableProps<TData, TValue> & {
-  remainingContacts: number;
+  time: number;
+  count: number;
 };
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   storageKey = "datatable:visibility",
-  remainingContacts,
+  time,
+  count,
 }: CombinedProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [filter, setFilter] = React.useState("");
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [loaded, setLoaded] = React.useState(false);
-  const [remaining, setRemaining] = React.useState<number>(remainingContacts);
-  const [open, setOpen] = React.useState(remainingContacts <= 0);
+  const [page, setPage] = React.useState(1);
+  const [currentCount, setCurrentCount] = React.useState<number>(count);
+  const [limitTime, setLimitTime] = React.useState<number>(time);
+  const [open, setOpen] = React.useState(false);
+
   const [tData, setTData] = React.useState<TData[]>(data);
 
   // Load from localStorage **client-side only**
@@ -86,8 +95,8 @@ export function DataTable<TData, TValue>({
   }, [columnVisibility, loaded, storageKey]);
 
   React.useEffect(() => {
-    setOpen(remainingContacts <= 0);
-  }, [remainingContacts]);
+    if (currentCount >= 50) setOpen(true);
+  }, [currentCount]);
 
   const table = useReactTable({
     data: tData,
@@ -101,7 +110,16 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
+  function handleClick() {
+    if (currentCount < 50) {
+      setLimitTime(new Date().getTime());
+      fetch("/api/update-limit", {
+        method: "POST",
+      });
+    }
 
+    // const data = await res.json();
+  }
   // if (remaining <= 0) return <div>You have reached the daily limit.</div>;
 
   return (
@@ -109,18 +127,25 @@ export function DataTable<TData, TValue>({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Daily Limit Reached</DialogTitle>
+            <DialogTitle className="font-semibold text-2xl text-center text-red-400">
+              Daily Limit Reached
+            </DialogTitle>
           </DialogHeader>
-          <DialogDescription>
-            You have reached the maximum number of allowed today.{" "}
-            <a href="#">Upgrade your account</a> or wait until the next 24 hours
+          <DialogDescription className="text-xl font-medium text-justify">
+            You have reached the maximum number of allowed today. Upgrade your
+            account or wait until the next{" "}
+            {getRemainingTime(new Date(limitTime)) + " "}
             for the limit to reset.
+          </DialogDescription>
+          <DialogDescription className="text-xl font-medium text-justify">
+            <span className="font-bold">Warning:</span> If you refresh, your
+            contacts will be lost.
           </DialogDescription>
           <DialogFooter>
             <DialogClose asChild>
               <Button
                 type="button"
-                variant="secondary"
+                variant="destructive"
                 onClick={() => setOpen(false)}
               >
                 Close
@@ -211,7 +236,10 @@ export function DataTable<TData, TValue>({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
+            onClick={() => {
+              table.previousPage();
+              setPage((prev) => prev - 1);
+            }}
             disabled={!table.getCanPreviousPage()}
           >
             Previous
@@ -222,12 +250,13 @@ export function DataTable<TData, TValue>({
             size="sm"
             onClick={() => {
               table.nextPage();
-              checkDailyLimit().then((data) => {
-                console.log(data);
-                setRemaining(data.remaining);
+              handleClick();
+              setCurrentCount((prev) => {
+                return prev + 10;
               });
+              setPage((prev) => prev + 1);
             }}
-            disabled={!table.getCanNextPage() || open || remaining <= 0}
+            disabled={!table.getCanNextPage()}
           >
             Next
           </Button>

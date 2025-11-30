@@ -109,9 +109,9 @@ export function DataTable<TData, TValue>({
         />
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-md border overflow-hidden">
         <Table className="min-w-max text-sm">
-          <TableHeader>
+          <TableHeader className="bg-accent">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (

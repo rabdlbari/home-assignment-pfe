@@ -6,14 +6,13 @@ import { cookies } from "next/headers";
 import { DateCount } from "@/proxy";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Lock } from "lucide-react";
-import Link from "next/link";
 
 const MAX_CONTACTS = 50;
 
 export default async function ContactsPage() {
   const rows = contacts;
 
-  const [header, ...data] = rows;
+  const [header, ...data] = rows.slice(0, MAX_CONTACTS + 1);
   shuffleRows(data);
   const contactsData: Contact[] = data.map((row) => {
     const obj: any = {};
@@ -30,16 +29,16 @@ export default async function ContactsPage() {
   const dateCount = cookie
     ? (JSON.parse(cookie.value) as DateCount)
     : { date: today, count: 0 };
-  console.log(MAX_CONTACTS - dateCount.count);
   const timeRemaining = getRemainingTime(new Date(dateCount.date));
   return (
     <div className="p-4 w-full max-w-screen overflow-hidden h-full">
       <h1 className="text-2xl font-semibold mb-2">Contacts:</h1>
-      {dateCount.count < 50 && dateCount.count >= 0 ? (
+      {dateCount.count < MAX_CONTACTS && dateCount.count >= 0 ? (
         <DataTable
           columns={columns}
           data={contactsData}
-          remainingContacts={MAX_CONTACTS - dateCount.count}
+          time={dateCount.date as number}
+          count={dateCount.count}
         />
       ) : (
         // <div className="h-full">
@@ -57,7 +56,6 @@ export default async function ContactsPage() {
             </p>
           </AlertDescription>
         </Alert>
-        // </div>
       )}
     </div>
   );
